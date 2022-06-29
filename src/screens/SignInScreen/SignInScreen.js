@@ -1,19 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   useWindowDimensions,
   ScrollView,
-  TextInput,
 } from 'react-native';
 import Logo from '../../../assets/images/Logo_1.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import {useNavigation} from '@react-navigation/native';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 
 const SignInScreen = () => {
   const {height} = useWindowDimensions();
@@ -22,6 +20,7 @@ const SignInScreen = () => {
   const {
     control,
     handleSubmit,
+    // eslint-disable-next-line no-unused-vars
     formState: {errors},
   } = useForm();
 
