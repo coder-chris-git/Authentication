@@ -1,10 +1,11 @@
-import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, ScrollView, Alert} from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
+import {Auth} from 'aws-amplify';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -14,8 +15,19 @@ const SignUpScreen = () => {
   const pwd = watch('password');
   const navigation = useNavigation();
 
-  const onRegisterPressed = () => {
-    navigation.navigate('ConfirmEmail');
+  const onRegisterPressed = async data => {
+    const {username, password, email} = data;
+    try {
+      await Auth.signUp({
+        username,
+        password,
+        attributes: {email},
+      });
+
+      navigation.navigate('ConfirmEmail', {email});
+    } catch (e) {
+      Alert.alert('Oops', e.message);
+    }
   };
 
   const onSignInPress = () => {
